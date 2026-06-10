@@ -1,2 +1,0 @@
-# Inscri-oCurso
-Inscrição - Curso
