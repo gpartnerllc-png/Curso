@@ -35,8 +35,7 @@
                 border: 1px solid #000 !important;
             }
         }
-        
-        /* Estilo da caixa da foto 3x4 customizada */
+        /* Estilo da caixa da foto 3x4 */
         .photo-box {
             border: 2px dashed #cbd5e1;
             width: 3cm;
@@ -47,29 +46,10 @@
             text-align: center;
             font-size: 0.8rem;
             color: #64748b;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            background-color: #f8fafc;
-            transition: all 0.2s ease;
-        }
-        .photo-box:hover {
-            border-color: #3b82f6;
-            background-color: #eff6ff;
-        }
-        .photo-preview {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: none;
         }
         @media print {
             .photo-box {
                 border: 1px solid #000;
-                background-color: transparent;
             }
         }
     </style>
@@ -96,12 +76,9 @@
                         <input type="text" required class="w-full border-b border-gray-400 focus:border-blue-500 outline-none py-1">
                     </div>
                 </div>
-                
                 <div class="flex justify-center md:justify-end items-start">
-                    <div class="photo-box shadow-sm" onclick="document.getElementById('photoInput').click();">
-                        <span id="photoText">Toque para<br>adicionar<br>Foto 3x4</span>
-                        <img id="photoPreview" class="photo-preview" alt="Foto 3x4">
-                        <input type="file" id="photoInput" accept="image/*" class="hidden" onchange="carregarFoto(this)">
+                    <div class="photo-box">
+                        <span>Foto 3x4</span>
                     </div>
                 </div>
             </div>
@@ -216,23 +193,6 @@
     </div>
 
     <script>
-        // Função para carregar a foto do computador ou da câmera do celular
-        function carregarFoto(input) {
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('photoPreview');
-                    const text = document.getElementById('photoText');
-                    
-                    preview.src = e.target.result;
-                    preview.style.display = 'block'; // Mostra a imagem
-                    text.style.display = 'none'; // Esconde o texto
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
         function imprimirFicha(event) {
             event.preventDefault(); // Impede o recarregamento da página
             window.print(); // Abre o diálogo de impressão nativo do sistema
