@@ -6,12 +6,22 @@
     <title>Inscrição - Curso de Agente de Portaria (AGP)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Desabilita a seleção de texto em toda a página para evitar cópias de conteúdo */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
         /* Estilos de impressão para forçar o formato A4 */
         @media print {
             body {
                 background: white;
                 color: black;
                 font-family: Arial, sans-serif;
+                -webkit-user-select: text;
+                user-select: text;
             }
             .no-print {
                 display: none !important;
@@ -36,7 +46,6 @@
             }
         }
         
-        /* Estilo da caixa da foto 3x4 customizada */
         .photo-box {
             border: 2px dashed #cbd5e1;
             width: 3cm;
@@ -74,7 +83,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 py-10 px-4">
+<body class="bg-gray-100 py-10 px-4" oncontextmenu="return false;">
 
     <div class="print-container max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md border border-gray-200">
         
@@ -216,7 +225,42 @@
     </div>
 
     <script>
-        // Função para carregar a foto do computador ou da câmera do celular
+        // 1. Bloqueio de Teclas de Atalho (F12, Ctrl+U, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+S)
+        document.onkeydown = function(e) {
+            // Desabilita F12
+            if (e.keyCode == 123) {
+                return false;
+            }
+            // Desabilita Ctrl+Shift+I (Inspeção)
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            // Desabilita Ctrl+Shift+J (Console)
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            // Desabilita Ctrl+U (Ver Código Fonte)
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+            // Desabilita Ctrl+S (Salvar Página)
+            if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
+                return false;
+            }
+        };
+
+        // 2. Anti-Debugger Loop (Se o usuário conseguir abrir o console, o navegador entra em loop travando a leitura)
+        (function() {
+            try {
+                (function a() {
+                    setInterval(function() {
+                        debugger;
+                    }, 50);
+                }());
+            } catch (e) {}
+        })();
+
+        // 3. Funções Originais do Formulário (Intactas)
         function carregarFoto(input) {
             const file = input.files[0];
             if (file) {
@@ -226,16 +270,16 @@
                     const text = document.getElementById('photoText');
                     
                     preview.src = e.target.result;
-                    preview.style.display = 'block'; // Mostra a imagem
-                    text.style.display = 'none'; // Esconde o texto
+                    preview.style.display = 'block';
+                    text.style.display = 'none';
                 }
                 reader.readAsDataURL(file);
             }
         }
 
         function imprimirFicha(event) {
-            event.preventDefault(); // Impede o recarregamento da página
-            window.print(); // Abre o diálogo de impressão nativo do sistema
+            event.preventDefault();
+            window.print();
         }
     </script>
 </body>
